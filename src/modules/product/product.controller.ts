@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import { ProductServices } from "./product.service"
-import { error } from "console";
 
 const createProduct = async(req: Request, res: Response) =>{
     try{
@@ -64,14 +63,14 @@ const deleteProductById = async(req: Request, res: Response) =>{
         const result = await ProductServices.deleteProductById(productId);
     res.json({
         success: true,
-        message: "Product updated successfully!",
+        message: "Product deleted successfully!",
         data: result,
 
     });
     }catch(err){
         res.json({
             success: false,
-            message: err || "Product is not updated successfully!",
+            message: err || "Product is not deleted successfully!",
             error: err,
         });
 }
