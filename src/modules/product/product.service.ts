@@ -1,3 +1,4 @@
+import { request } from "express";
 import { TProduct } from "./product.interface"
 import { Product } from "./product.model";
 
@@ -15,8 +16,13 @@ const getProductById = async (id : string) =>{
 const result = await Product.findById(id)
     return result;
 }
+const deleteProductById = async (_id: string) =>{
+const result = await Product.findByIdAndDelete(_id)
+    return result;
+}
 export const ProductServices ={
     createProduct,
     getAllProduct,
-    getProductById
+    getProductById,
+    deleteProductById
 }

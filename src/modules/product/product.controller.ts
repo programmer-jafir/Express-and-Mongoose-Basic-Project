@@ -56,9 +56,29 @@ const getProductById = async(req: Request, res: Response) =>{
             error: err,
         });
 }
+};
+
+const deleteProductById = async(req: Request, res: Response) =>{
+    try{
+        const {productId} = req.params;
+        const result = await ProductServices.updateProductById(productId);
+    res.json({
+        success: true,
+        message: "Product updated successfully!",
+        data: result,
+
+    });
+    }catch(err){
+        res.json({
+            success: false,
+            message: err || "Product is not updated successfully!",
+            error: err,
+        });
+}
 }
 export const ProductControllers ={
     createProduct,
     getAllProduct,
-    getProductById
+    getProductById,
+    deleteProductById
 }
