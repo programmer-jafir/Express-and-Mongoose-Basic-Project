@@ -27,6 +27,7 @@ const result = await Product.findByIdAndUpdate(id,
 )
     return result;
 }
+
 const deleteProductById = async (_id: string) =>{
 const result = await Product.findByIdAndDelete(_id)
     return result;

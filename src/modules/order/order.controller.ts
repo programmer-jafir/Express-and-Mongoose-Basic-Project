@@ -1,20 +1,30 @@
 import { Request, Response } from "express";
 import { OrderServices } from "./order.service";
+import orderValidationSchema from "./order.validation";
 
 const createOrder = async(req: Request, res: Response) =>{
     try{
         const OrdertData = req.body;
+        const {error} = orderValidationSchema.validate(OrdertData)
     const result = await OrderServices.createOrder(OrdertData)
-    res.json({
-        success: true,
-        message: "Order created successfully!",
-        data: result,
-
-    });
+    if(error){
+        res.status(500).json({
+            success: false,
+            message:"Order is not created successfully!",
+            error: error.details,
+        });
+    }else{
+        res.json({
+            success: true,
+            message: "Order created successfully!",
+            data: result,
+    
+        });
+    }
     }catch(err){
         res.json({
             success: false,
-            message: err || "Order is not created successfully!",
+            message: "Order is not created successfully!",
             error: err,
         });
 };
@@ -23,16 +33,16 @@ const createOrder = async(req: Request, res: Response) =>{
 const getAllOrders = async(req: Request, res: Response) =>{
     try{
     const result = await OrderServices.getAllOrders()
-    res.json({
+    res.status(200).json({
         success: true,
         message: "Orders fetched successfully!",
         data: result,
 
     });
     }catch(err){
-        res.json({
+        res.status(500).json({
             success: false,
-            message: err || "Orders is not fetched successfully!",
+            message:"Order not found",
             error: err,
         });
 };
