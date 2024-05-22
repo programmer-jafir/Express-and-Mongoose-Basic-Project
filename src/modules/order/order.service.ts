@@ -7,8 +7,9 @@ const createOrder = async (payLoad: TOrder) =>{
 const result = await Order.create(payLoad)
     return result;
 }
-const getAllOrders = async () =>{
-const result = await Order.find()
+const getAllOrders = async (email?: string) =>{
+const query = email ? { email } : {};
+const result = await Order.find(query)
     return result;
 }
 
