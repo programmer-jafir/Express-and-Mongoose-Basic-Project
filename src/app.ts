@@ -15,5 +15,6 @@ app.get('/', (req:Request, res: Response) => {
 app.use((req: Request, res: Response, next: NextFunction) => {
   const error = new Error('Route not found');
   res.status(404).json({ success: false, message: error.message });
+  next()
 });
 export default app

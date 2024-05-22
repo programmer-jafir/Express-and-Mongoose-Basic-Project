@@ -15,24 +15,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderControllers = void 0;
 const order_service_1 = require("./order.service");
 const order_validation_1 = __importDefault(require("./order.validation"));
+const product_model_1 = require("../product/product.model");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const OrdertData = req.body;
-        const { error } = order_validation_1.default.validate(OrdertData);
-        const result = yield order_service_1.OrderServices.createOrder(OrdertData);
-        if (error) {
-            res.status(500).json({
-                success: false,
-                message: "Order is not created successfully!",
-                error: error.details,
-            });
+        const { productId } = req.body;
+        const existingProduct = yield product_model_1.Product.findById(productId);
+        if (!existingProduct) {
+            return res.status(400).json({ success: false, message: 'Invalid productId' });
         }
         else {
-            res.json({
-                success: true,
-                message: "Order created successfully!",
-                data: result,
-            });
+            const OrdertData = req.body;
+            const { error } = order_validation_1.default.validate(OrdertData);
+            const result = yield order_service_1.OrderServices.createOrder(OrdertData);
+            if (error) {
+                res.status(500).json({
+                    success: false,
+                    message: "Order is not created successfully!",
+                    error: error.details,
+                });
+            }
+            else {
+                res.json({
+                    success: true,
+                    message: "Order created successfully!",
+                    data: result,
+                });
+            }
         }
     }
     catch (err) {

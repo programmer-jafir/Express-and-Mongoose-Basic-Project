@@ -14,4 +14,9 @@ app.use('/api/orders', order_router_1.OrderRouters);
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
+app.use((req, res, next) => {
+    const error = new Error('Route not found');
+    res.status(404).json({ success: false, message: error.message });
+    next();
+});
 exports.default = app;
