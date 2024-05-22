@@ -57,6 +57,30 @@ const getProductById = async(req: Request, res: Response) =>{
 }
 };
 
+const updatedProductById = async(req: Request, res: Response) =>{
+    try{
+        const {productId} = req.params;
+        const { name, description, category, tags } = req.body;
+        const result = await ProductServices.updatedProductById(productId, name, description,category, tags
+            
+        );
+    res.json({
+        success: true,
+        message: "Products fetched successfully!",
+        data: result,
+
+    });
+    }catch(err){
+        res.json({
+            success: false,
+            message: err || "Something went wrong!",
+            error: err,
+        });
+}
+};
+
+
+
 const deleteProductById = async(req: Request, res: Response) =>{
     try{
         const {productId} = req.params;
@@ -79,5 +103,6 @@ export const ProductControllers ={
     createProduct,
     getAllProduct,
     getProductById,
-    deleteProductById
+    deleteProductById,
+    updatedProductById
 }

@@ -40,5 +40,5 @@ const getAllOrders = async(req: Request, res: Response) =>{
 
 export const OrderControllers = {
     createOrder,
-    getAllOrders
+    getAllOrders,
 }
