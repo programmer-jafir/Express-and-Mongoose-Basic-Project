@@ -15,8 +15,9 @@ const createOrder = (payLoad) => __awaiter(void 0, void 0, void 0, function* () 
     const result = yield order_model_1.Order.create(payLoad);
     return result;
 });
-const getAllOrders = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield order_model_1.Order.find();
+const getAllOrders = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = email ? { email } : {};
+    const result = yield order_model_1.Order.find(query);
     return result;
 });
 exports.OrderServices = {

@@ -19,4 +19,6 @@ const productSchema = new mongoose_1.Schema({
     variants: { type: [variantSchema], required: true },
     inventory: { type: inventorySchema, required: true }
 });
+// for seraching from db
+productSchema.index({ name: 'text' });
 exports.Product = (0, mongoose_1.model)('Product', productSchema);

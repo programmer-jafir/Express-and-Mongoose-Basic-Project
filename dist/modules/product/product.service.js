@@ -15,8 +15,9 @@ const createProduct = (payLoad) => __awaiter(void 0, void 0, void 0, function* (
     const result = yield product_model_1.Product.create(payLoad);
     return result;
 });
-const getAllProduct = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.Product.find();
+const getAllProduct = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = searchTerm ? { $text: { $search: searchTerm } } : {};
+    const result = yield product_model_1.Product.find(query);
     return result;
 });
 const getProductById = (id) => __awaiter(void 0, void 0, void 0, function* () {

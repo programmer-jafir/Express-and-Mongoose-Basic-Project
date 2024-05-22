@@ -42,11 +42,17 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     ;
 });
 const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        const result = yield product_service_1.ProductServices.getAllProduct();
+        const searchTerm = ((_a = req.query.searchTerm) === null || _a === void 0 ? void 0 : _a.toString()) || '';
+        const result = yield product_service_1.ProductServices.getAllProduct(searchTerm);
+        let message = `Products fetched successfully!`;
+        if (searchTerm) {
+            message = `Products matching search term '${searchTerm}' fetched successfully!`;
+        }
         res.status(200).json({
             success: true,
-            message: "Products fetched successfully!",
+            message: message,
             data: result,
         });
     }
