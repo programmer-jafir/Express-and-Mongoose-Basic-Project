@@ -1,26 +1,37 @@
 import { Request, Response } from "express";
 import { OrderServices } from "./order.service";
 import orderValidationSchema from "./order.validation";
+import { Product } from "../product/product.model";
 
 const createOrder = async(req: Request, res: Response) =>{
     try{
-        const OrdertData = req.body;
-        const {error} = orderValidationSchema.validate(OrdertData)
-    const result = await OrderServices.createOrder(OrdertData)
-    if(error){
-        res.status(500).json({
-            success: false,
-            message:"Order is not created successfully!",
-            error: error.details,
-        });
-    }else{
-        res.json({
-            success: true,
-            message: "Order created successfully!",
-            data: result,
-    
-        });
-    }
+        const {productId} = req.body;
+        
+        const existingProduct = await Product.findById(productId);
+        if (!existingProduct) {
+            return res.status(400).json({ success: false, message: 'Invalid productId' });
+        }else{
+            const OrdertData = req.body;
+            const {error} = orderValidationSchema.validate(OrdertData)
+        const result = await OrderServices.createOrder(OrdertData)
+        if(error){
+            res.status(500).json({
+                success: false,
+                message:"Order is not created successfully!",
+                error: error.details,
+            });
+        }else{
+            res.json({
+                success: true,
+                message: "Order created successfully!",
+                data: result,
+        
+            });
+        }
+        }
+        
+        
+       
     }catch(err){
         res.json({
             success: false,
