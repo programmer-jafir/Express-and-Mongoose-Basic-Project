@@ -26,5 +26,8 @@ const productSchema = new Schema<TProduct>({
   inventory: { type: inventorySchema, required: true }
 });
 
+// for seraching from db
+productSchema.index({ name: 'text' });
+
 export const Product = model<TProduct>('Product', productSchema);
 

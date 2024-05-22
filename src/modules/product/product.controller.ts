@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { ProductServices } from "./product.service"
 import { productValidationSchema } from "./product.validation";
+import { string } from "joi";
 
 const createProduct = async(req: Request, res: Response) =>{
     try{
@@ -33,13 +34,20 @@ const createProduct = async(req: Request, res: Response) =>{
 
 const getAllProduct = async(req: Request, res: Response) =>{
     try{
-    const result = await ProductServices.getAllProduct()
-    res.status(200).json({
-        success: true,
-        message: "Products fetched successfully!",
-        data: result,
+        const searchTerm: string = req.query.searchTerm?.toString() || '';
+        const result = await ProductServices.getAllProduct(searchTerm)
 
-    });
+        let message = `Products fetched successfully!`;
+        if (searchTerm) {
+            message = `Products matching search term '${searchTerm}' fetched successfully!`;
+        }
+
+        res.status(200).json({
+            success: true,
+            message: message,
+            data: result,
+            
+        });
     }catch(err){
         res.status(500).json({
             success: false,

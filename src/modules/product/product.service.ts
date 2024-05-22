@@ -6,8 +6,9 @@ const result = await Product.create(payLoad)
     return result;
 }
 
-const getAllProduct = async () =>{
-const result = await Product.find()
+const getAllProduct = async (searchTerm: string) =>{
+    const query = searchTerm ? { $text: { $search: searchTerm } } : {};
+    const result = await Product.find(query)
     return result;
 }
 
